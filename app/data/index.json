@@ -1,0 +1,22 @@
+{
+	"intro": {
+		"text": {
+			"title": "Dungeon Dog 2065",
+			"subtitle": "Welcome to the nightmare",
+			"text": "You have entered a desolate castle. A seductress greets you by the fireplace.",
+			"question": "What do you do?"
+		},
+		"prompts": [
+			{
+				"answer": "Go towards her.",
+				"id": "1_1",
+				"file": "1_1/index.json"
+			},
+			{
+				"answer": "Run away",
+				"id": "1_2",
+				"file": "1_2/index.json"
+			}
+		]
+	}
+}
