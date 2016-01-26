@@ -103,7 +103,8 @@ const Home = React.createClass({
 		let promptArray = [];
 		
 		if (this.props.allData.intro){
-			lineArray = splitLines(this.props.allData.intro.text);
+			console.log('TEXT', this.props.allData.intro.text);
+			//lineArray = splitLines(this.props.allData.intro.text);
 
 			let cx = classNames({
 				options: true,
@@ -120,14 +121,14 @@ const Home = React.createClass({
 				visible: this.state.currentLine >= lineArray.length
 			});
 
-			
 
 			return (
 				<div className="home">
 					<Image src={this.props.allData.intro.image} />
+					
 					<Printer
 						key={index}
-						message={item}
+						message={lineArray}
 						speed={40}
 						callback={self._printNextLine}
 						callbackDelay={200}
