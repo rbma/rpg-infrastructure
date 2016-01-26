@@ -124,6 +124,7 @@ const Home = React.createClass({
 
 			return (
 				<div className="home">
+					<img src="images/ansi_blondie.png" />
 					{lineArray.map(function(item, index){
 						if (index <= self.state.currentLine){
 							return <Printer key={index} message={item} nextLine={self._printNextLine}/>
