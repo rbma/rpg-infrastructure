@@ -125,17 +125,14 @@ const Home = React.createClass({
 			return (
 				<div className="home">
 					<Image src={this.props.allData.intro.image} />
-					{lineArray.map(function(item, index){
-						if (index <= self.state.currentLine){
-							return <Printer
-								key={index}
-								message={item}
-								speed={40}
-								callback={self._printNextLine}
-								callbackDelay={200}
-							/>
-						}
-					})}
+					<Printer
+						key={index}
+						message={item}
+						speed={40}
+						callback={self._printNextLine}
+						callbackDelay={200}
+					/>
+
 					<p>-------------------------------------</p>
 					<ul className={cx}>
 						{this.props.allData.intro.prompts.map(function(item, index){
