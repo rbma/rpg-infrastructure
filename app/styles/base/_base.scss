@@ -36,6 +36,12 @@ body{
 	}
 }
 
+.ansi{
+	font-size: 0.5em;
+	font-weight: lighter;
+	line-height: 2;
+}
+
 span{
 	display: inline-block;
 }
@@ -52,4 +58,9 @@ span{
 	&:after{
 		content: 'Your choice?'
 	}
+}
+
+img{
+	text-align: center;
+	width: 500px;
 }

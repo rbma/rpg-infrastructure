@@ -17,12 +17,10 @@ const App = React.createClass({
 	componentDidMount: function(){
 
 		let self = this;
-		console.log("mount");
 
 		fetch('data/index.json').then(function(response){
 
 			let data = response;
-			console.log(data);
 			
 			self.setState({
 				allData: data
@@ -38,7 +36,6 @@ const App = React.createClass({
 
 
 	render: function(){
-		console.log(this.state);
 		return (
 			<div className="container">
 				{this.props.children && React.cloneElement(this.props.children, {

@@ -1,10 +1,10 @@
 {
 	"intro": {
+		"image": "images/ansi_blondie.png",
 		"text": {
-			"title": "Dungeon Dog 2065",
-			"subtitle": "Welcome to the nightmare",
-			"text": "You have entered a desolate castle. A seductress greets you by the fireplace.",
-			"question": "What do you do?"
+			"title": ["Dungeon Dog 2065", "Welcome to the nightmare"],
+			"text": ["You have entered a desolate castle. A seductress greets you by the fireplace."],
+			"question": ["What do you do?"]
 		},
 		"prompts": [
 			{

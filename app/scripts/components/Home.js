@@ -7,6 +7,8 @@ const classNames = require('classnames');
 const splitLines = require('../utils/splitLines');
 const Printer = require('../utils/printer');
 const keysight = require('keysight');
+const Image = require('./Image');
+const Title = require('./Title');
 
 
 
@@ -32,7 +34,6 @@ const Home = React.createClass({
 	componentDidMount: function(){
 
 		let self = this;
-		console.log(this.context);
 
 		document.addEventListener('keydown', self._onKeyDown);
 
@@ -41,7 +42,6 @@ const Home = React.createClass({
 	_onKeyDown: function(e){
 		let key = keysight(e).key;
 		let self = this;
-		console.log(e.keyCode);
 		if (e.keyCode === 8){
 			key = 'backspace';
 		}
@@ -91,8 +91,7 @@ const Home = React.createClass({
 	},
 
 	_handleInput: function(){
-		console.log(this.context);
-		this.context.router.push('/1');
+		this.context.router.push({pathname: '/1', query: {branch: this.state.input}});
 
 	},
 
@@ -119,14 +118,22 @@ const Home = React.createClass({
 			let cz = classNames({
 				'blinking-cursor': true,
 				visible: this.state.currentLine >= lineArray.length
-			})
+			});
+
 			
 
 			return (
 				<div className="home">
+					<Image src={this.props.allData.intro.image} />
 					{lineArray.map(function(item, index){
 						if (index <= self.state.currentLine){
-							return <Printer key={index} message={item} nextLine={self._printNextLine}/>
+							return <Printer
+								key={index}
+								message={item}
+								speed={40}
+								callback={self._printNextLine}
+								callbackDelay={200}
+							/>
 						}
 					})}
 					<p>-------------------------------------</p>

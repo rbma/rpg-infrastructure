@@ -14,7 +14,7 @@ const browserHistory = ReactRouter.browserHistory;
 
 const App = require('./App');
 const Home = require('./components/Home');
-const One = require('./components/One1');
+const One = require('./components/1');
 //const About = require('./components/About');
 
 
