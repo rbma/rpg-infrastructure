@@ -1,20 +1,33 @@
 'use strict';
 
 const React = require('react');
+const _ = require('lodash');
 
 
 const One = React.createClass({
 
+	propTypes: {
+		data: React.PropTypes.object
+	},
+
 	getInitialState: function(){
 		return {
-			branch: 0,
-			data: null
+			branchData: null
 		}
+
 	},
+
 
 	componentDidMount: function(){
 		let branch = this.props.location.query.branch;
-		console.log("MOUNT", branch);
+
+		// ------------------------------------------------
+		// Find correct branch data
+		//
+		// let branchData = _.findKey(this.props.data, function(item){
+		// 	return item
+		// })
+		
 	},
 
 	componentWillReceiveProps: function(nextProps){

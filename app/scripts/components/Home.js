@@ -17,7 +17,7 @@ const Title = require('./Title');
 const Home = React.createClass({
 
 	propTypes: {
-		allData: React.PropTypes.object
+		data: React.PropTypes.object
 	},
 	contextTypes: {
     	router: React.PropTypes.object.isRequired
@@ -99,36 +99,32 @@ const Home = React.createClass({
 
 	render: function(){
 		let self = this;
-		let lineArray = [];
-		let promptArray = [];
+
 		
-		if (this.props.allData.intro){
-			console.log('TEXT', this.props.allData.intro.text);
-			//lineArray = splitLines(this.props.allData.intro.text);
+		if (this.props.data.intro){
 
 			let cx = classNames({
 				options: true,
-				visible: this.state.currentLine >= lineArray.length
+				visible: this.state.currentLine >= this.props.data.intro.text.length
 			});
 
 			let cy = classNames({
 				choice: true,
-				visible: this.state.currentLine >= lineArray.length
+				visible: this.state.currentLine >= this.props.data.intro.text.length
 			});
 
 			let cz = classNames({
 				'blinking-cursor': true,
-				visible: this.state.currentLine >= lineArray.length
+				visible: this.state.currentLine >= this.props.data.intro.text.length
 			});
 
 
 			return (
 				<div className="home">
-					<Image src={this.props.allData.intro.image} />
+					<Image src={this.props.data.intro.image} />
 					
 					<Printer
-						key={index}
-						message={lineArray}
+						message={this.props.data.intro.text}
 						speed={40}
 						callback={self._printNextLine}
 						callbackDelay={200}
@@ -136,8 +132,8 @@ const Home = React.createClass({
 
 					<p>-------------------------------------</p>
 					<ul className={cx}>
-						{this.props.allData.intro.prompts.map(function(item, index){
-							return <li key={index}>{index + 1}) {item.answer}</li>;
+						{this.props.data.intro.prompts.map(function(item, index){
+							return <li key={index}> {item.text}</li>;
 						})}
 					</ul>
 					<span className={cy}></span>

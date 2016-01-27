@@ -8,14 +8,10 @@ const React = require('react');
 const classNames = require('classnames');
 
 
-const Printer = React.createClass({
+const PrintLine = require('./print-line');
 
-	// ------------------------------------------------
-	// Internal component properties
-	//
-	_timer: null,
-	_counter: 0,
-	_keys: 0,
+
+const Printer = React.createClass({
 
 
 	// ------------------------------------------------
@@ -33,11 +29,6 @@ const Printer = React.createClass({
 	},
 
 
-// 	for (var key in p) {
-//   if (p.hasOwnProperty(key)) {
-//     alert(key + " -> " + p[key]);
-//   }
-// }
 
 	// ------------------------------------------------
 	// Default public component properties
@@ -59,138 +50,64 @@ const Printer = React.createClass({
 	//
 	getInitialState: function(){
 		return {
-			currentString: ''
+			index: 0
 		}
 	},
 
 	// ------------------------------------------------
-	// Begin typing
+	// Increment state + call custom callback
 	//
-	componentDidMount: function(){
-		this._type();
-	},
+	
+	_callbackHandler: function(){
 
-	// ------------------------------------------------
-	// Remove all timeouts on unmount
-	//
-	componentWillUnmount: function(){
-		clearTimeout(self._timer);
-		clearTimeout(self._delay);
-	},
-
-
-	// ------------------------------------------------
-	// Main type function
-	//
-	_type: function(){
-		let self = this;
-
+		const self = this;
+		
 		// ------------------------------------------------
-		// Recursive function for typing
+		// Increment index
 		//
-		this._timer = setTimeout(function(){
+		this.setState({
+
+			index: self.state.index + 1
+
+		}, function(){
 
 			// ------------------------------------------------
-			// While there are letters left
+			// If custom callback is present, call it after state
+			// is updated
 			//
-			if (self._counter < self.props.message.length){
-				
-				// ------------------------------------------------
-				// New letter to add
-				//
-				let currentLetter = self.props.message[self._counter];
-
-				// ------------------------------------------------
-				// Update current msg
-				//
-				self.setState({
-					currentString: self.state.currentString + currentLetter
-				});
-
-				// ------------------------------------------------
-				// Increment counter
-				//
-				self._counter++;
-
-				// ------------------------------------------------
-				// Call recursive function again
-				//
-				self._type();
-			}
-
-			// ------------------------------------------------
-			// No letters left Line has ended
-			//
-			else{
-				self._delay = setTimeout(function(){
-					
-					// ------------------------------------------------
-					// Trigger callback
-					//
-					self.props.callback();
-
-					// ------------------------------------------------
-					// Optional delay on callback
-					//
-				}, self.props.callbackDelay);
-				
-
-				// ------------------------------------------------
-				// End timer
-				//
-				clearTimeout(self._timer);
+			if (self.props.callback){
+				self.props.callback();
 			}
 			
-			// ------------------------------------------------
-			// Rate
-			//
-		}, self.props.speed);
-
+		});
+		
 	},
-
 
 
 	render: function(){
 
-		let cx = classNames({
-			'printer': true,
-			'cursor': this.props.cursor,
-			'cursor-blink': this.props.cursorBlink
-		});
+		const self = this;
 
-		switch (this.props.containerElement){
+		return (
+			<div className="print-container">
+				
+				{this.props.message.map(function(item, index){
+					if (index <= self.state.index){
+						return (
+							<PrintLine
+								key={index}
+								message={item}
+								speed={self.props.speed}
+								containerElement={self.props.containerElement}
+								callback={self._callbackHandler}
+								callbackDelay={self.props.callbackDelay}
+							/>
+						);
+					}
+				})}
+			</div>
+		);
 
-			case 'p':
-				return (<p className={cx}>{this.state.currentString}</p>);
-				break;
-
-			case 'h1':
-				return (<h1 className={cx}>{this.state.currentString}</h1>);
-				break;
-
-			case 'h2':
-				return (<h2 className={cx}>{this.state.currentString}</h2>);
-				break;
-
-			case 'h3':
-				return (<h3 className={cx}>{this.state.currentString}</h3>);
-				break;
-
-			case 'h4':
-				return (<h4 className={cx}>{this.state.currentString}</h4>);
-				break;
-
-			case 'h5':
-				return (<h5 className={cx}>{this.state.currentString}</h5>);
-				break;
-
-			case 'span':
-				return (<span className={cx}>{this.state.currentString}</span>);
-				break;
-
-			default:
-				return (<p className={cx}>{this.state.currentString}</p>);
-		}
 
 	}
 

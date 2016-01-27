@@ -2,7 +2,7 @@
 
 
 const React = require('react');
-const fetch = require('./utils/fetch');
+const fetch = require('../utils/fetch');
 
 
 const App = React.createClass({
@@ -10,7 +10,7 @@ const App = React.createClass({
 
 	getInitialState: function(){
 		return {
-			allData: {}
+			data: {}
 		};
 	},
 
@@ -21,9 +21,10 @@ const App = React.createClass({
 		fetch('data/index.json').then(function(response){
 
 			let data = response;
+			console.log(response);
 			
 			self.setState({
-				allData: data
+				data: data
 			});
 
 		
@@ -36,10 +37,11 @@ const App = React.createClass({
 
 
 	render: function(){
+
 		return (
 			<div className="container">
 				{this.props.children && React.cloneElement(this.props.children, {
-					allData: this.state.allData
+					data: this.state.data
 				})}
 			</div>
 		);

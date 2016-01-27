@@ -2,18 +2,31 @@
 	"intro": {
 		"image": "images/ansi_blondie.png",
 		"title": "Dungeon Dog 2065: Welcome to the nightmare",
-		"text": ["You have entered a desolate castle. A seductress greets you by the fireplace.", "What do you do?"],
+		"text": [
+			"You have entered a desolate castle. A seductress greets you by the fireplace.",
+			"You must act quickly as you can tell she means harm.",
+			"What do you do?"
+		],
 		"prompts": [
 			{
-				"answer": "Go towards her.",
+				"text": "1) Go towards her with a hatchet",
 				"id": "1_1",
 				"file": "1_1/index.json"
 			},
 			{
-				"answer": "Run away",
+				"text": "2) Run away",
 				"id": "1_2",
 				"file": "1_2/index.json"
 			}
+		]
+	},
+
+	
+	"1_1": {
+		"image": "images/ansi_blondie.png",
+		"text": [
+			"You have run out of food.",
+			"What do you do?"
 		]
 	}
 }
