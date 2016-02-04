@@ -2,7 +2,7 @@
 
 const q = require('q');
 
-module.exports = function(url){
+module.exports = function(url, json){
 
 	let request = new XMLHttpRequest();
 	let deferred = q.defer();
@@ -11,8 +11,15 @@ module.exports = function(url){
 
 	request.onload = function(){
 		if (request.status >= 200 && request.status < 400){
-			let data = JSON.parse(request.responseText);
-			deferred.resolve(data);
+
+			if (json === true){
+				let data = JSON.parse(request.responseText);
+				deferred.resolve(data);
+			}
+			else{
+				deferred.resolve(request.responseText);
+			}
+			
 		}
 
 		else{

@@ -12,7 +12,6 @@ const PrintLine = React.createClass({
 	_timer: null,
 	_delay: null,
 	_counter: 0,
-	_keys: 0,
 	
 
 	propTypes: {
@@ -23,7 +22,8 @@ const PrintLine = React.createClass({
 
 	getInitialState: function(){
 		return {
-			currentString: ''
+			currentString: '',
+			counter: 0
 		}
 	},
 
@@ -57,8 +57,22 @@ const PrintLine = React.createClass({
 	// Remove all timeouts on unmount
 	//
 	componentWillUnmount: function(){
+
+
+		// ------------------------------------------------
+		// Clear all
+		//
+
+		this._counter = 0;
+		this.setState({
+			currentString: ''
+		});
+
+
+
 		clearTimeout(self._timer);
 		clearTimeout(self._delay);
+
 	},
 
 
@@ -66,7 +80,8 @@ const PrintLine = React.createClass({
 	// Main type function
 	//
 	_type: function(){
-		let self = this;
+		
+		const self = this;
 
 		// ------------------------------------------------
 		// Recursive function for typing
@@ -76,29 +91,26 @@ const PrintLine = React.createClass({
 			// ------------------------------------------------
 			// While there are letters left
 			//
-			if (self._counter < self.props.message.length){
+			if (self.state.counter < self.props.message.length){
+				console.log(self.props.message.length);
 				
 				// ------------------------------------------------
 				// New letter to add
 				//
-				let currentLetter = self.props.message[self._counter];
+				let currentLetter = self.props.message[self.state.counter];
 
 				// ------------------------------------------------
-				// Update current msg
+				// Update current msg + Increment counter
 				//
 				self.setState({
-					currentString: self.state.currentString + currentLetter
-				});
+					currentString: self.state.currentString + currentLetter,
+					counter: self.state.counter + 1
+				}, self._type);
 
-				// ------------------------------------------------
-				// Increment counter
-				//
-				self._counter++;
-
-				// ------------------------------------------------
-				// Call recursive function again
-				//
-				self._type();
+				// // ------------------------------------------------
+				// // Call recursive function again
+				// //
+				// self._type();
 			}
 
 			// ------------------------------------------------
@@ -106,7 +118,9 @@ const PrintLine = React.createClass({
 			//
 			else{
 				self._delay = setTimeout(function(){
+
 					
+					console.log('LINE ENDED');
 					// ------------------------------------------------
 					// Trigger callback
 					//
@@ -137,78 +151,18 @@ const PrintLine = React.createClass({
 
 	render: function(){
 
+
 		let cx = classNames({
 			'printer': true,
 			'cursor': this.props.cursor,
 			'cursor-blink': this.props.cursorBlink
 		});
 
-		switch (this.props.containerElement){
-
-			case 'p':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			case 'h1':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			case 'h2':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			case 'h3':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			case 'h4':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			case 'h5':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			case 'span':
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-				);
-				break;
-
-			default:
-				return (
-					<div className="print-container">
-						<p className={cx}>{this.state.currentString}</p>
-					</div>
-			);
-		}
-
+		return (
+			<div className="print-container">
+				<p className={cx}>{this.state.currentString}</p>
+			</div>
+		);
 	}
 
 });

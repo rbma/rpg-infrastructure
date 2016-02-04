@@ -25,7 +25,8 @@ const Printer = React.createClass({
 		containerElement: React.PropTypes.node,
 		cursor: React.PropTypes.bool,
 		cursorBlink: React.PropTypes.bool,
-		delete: React.PropTypes.bool
+		delete: React.PropTypes.bool,
+		lineIndex: React.PropTypes.number
 	},
 
 
@@ -58,29 +59,41 @@ const Printer = React.createClass({
 	// Increment state + call custom callback
 	//
 	
+
+	// ------------------------------------------------
+	// BUG: Line index is incrementing BEFORE new data is in
+	//
+	
 	_callbackHandler: function(){
 
 		const self = this;
-		
-		// ------------------------------------------------
-		// Increment index
-		//
 		this.setState({
-
-			index: self.state.index + 1
-
-		}, function(){
-
-			// ------------------------------------------------
-			// If custom callback is present, call it after state
-			// is updated
-			//
-			if (self.props.callback){
-				self.props.callback();
-			}
-			
+			index: this.state.index + 1
 		});
-		
+
+		this.props.callback();
+	},
+
+	shouldComponentUpdate: function(nextProps){
+		if (nextProps.message[0] !== this.props.message[0]){
+			return true;
+		}
+
+		if (nextProps.lineIndex !== this.props.lineIndex){
+			return true;
+		}
+
+		else{
+			return false;
+		}
+	},
+
+	componentWillUnmount: function(){
+		alert('printer unmount');
+	},
+
+	componentWillReceiveProps: function(nextProps){
+		// console.log(nextProps.message);
 	},
 
 
@@ -88,11 +101,14 @@ const Printer = React.createClass({
 
 		const self = this;
 
+
 		return (
 			<div className="print-container">
 				
 				{this.props.message.map(function(item, index){
-					if (index <= self.state.index){
+					// console.log('INDEX: ', index, ' LINEINDEX: ', self.props.lineIndex);
+					if (index <= self.props.lineIndex){
+
 						return (
 							<PrintLine
 								key={index}

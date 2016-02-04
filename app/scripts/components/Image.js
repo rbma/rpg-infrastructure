@@ -1,6 +1,7 @@
 'use strict';
 
-const React = require('react');
+import React from 'react';
+import fetch from '../utils/fetch';
 
 
 const Image = React.createClass({
@@ -9,13 +10,55 @@ const Image = React.createClass({
 		src: React.PropTypes.string.isRequired
 	},
 
+	getInitialState: function(){
+		return {
+			ascii: ''
+		}
+	},
+
+	componentDidMount: function(){
+
+		// ------------------------------------------------
+		// Fetch txt
+		//
+		if (this.props.src){
+			this._fetch();
+		}
+
+		else{
+			console.log('not there');
+		}
+	
+	},
 
 
+	_fetch: function(){
+		const self = this;
+
+		fetch(this.props.src).then(function(response){
+			self.setState({
+				ascii: response
+			});
+		});
+	},
+
+
+	componentDidUpdate: function(oldProps){
+
+		if (oldProps.src !== this.props.src){
+			this._fetch();
+		}
+
+		else {
+			return null;
+		}
+
+	},
 
 	render: function(){
 
 		return (
-			<img src={this.props.src} />
+			<pre>{this.state.ascii}</pre>
 		);
 	}
 
