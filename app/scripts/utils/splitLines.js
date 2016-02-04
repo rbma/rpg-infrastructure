@@ -19,6 +19,7 @@ module.exports = function(obj){
 		lineArray.push(value);
 	});
 
+
 	return lineArray;
 
 };

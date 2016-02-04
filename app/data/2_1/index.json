@@ -1,0 +1,32 @@
+{
+	"id": 21,
+	"image": "images/1_1.txt",
+	"title": "The Barren Hollows",
+	"text": [
+		"A lizard crawls in your boots.",
+		"Your food supplies are nonexistant.",
+		"What do you do?"
+	],
+	"prompts": [
+		{
+			"text": "1) Go towards her with a hatchet",
+			"id": "1",
+			"file": "1_1/index.json"
+		},
+		{
+			"text": "2) Run away",
+			"id": "2",
+			"file": "1_2/index.json"
+		},
+		{
+			"text": "3) Read a book",
+			"id": "3",
+			"file": "1_3/index.json"
+		},
+		{
+			"text": "4) Break down in tears",
+			"id": "4",
+			"file": "1_4/index.json"
+		}
+	]
+}

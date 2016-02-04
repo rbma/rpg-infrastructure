@@ -5,75 +5,129 @@
 // -------------------------------------------------
 
 const React = require('react');
+const classNames = require('classnames');
+
+
+const PrintLine = require('./print-line');
+
 
 const Printer = React.createClass({
 
-	_timer: null,
-	_counter: 0,
-	_speed: 50,
-	_keys: 0,
 
+	// ------------------------------------------------
+	// Public component properties
+	//
 	propTypes: {
-		message: React.PropTypes.string.isRequired,
-		nextLine: React.PropTypes.func.isRequired
+		message: React.PropTypes.array.isRequired,
+		speed: React.PropTypes.number,
+		callback: React.PropTypes.func,
+		callbackDelay: React.PropTypes.number,
+		containerElement: React.PropTypes.node,
+		cursor: React.PropTypes.bool,
+		cursorBlink: React.PropTypes.bool,
+		delete: React.PropTypes.bool,
+		lineIndex: React.PropTypes.number
 	},
 
-	getInitialState: function(){
+
+
+	// ------------------------------------------------
+	// Default public component properties
+	//
+	getDefaultProps: function(){
 		return {
-			currentString: ''
+			speed: 50,
+			callbackDelay: 100,
+			containerElement: 'p',
+			cursor: false,
+			cursorBlink: false,
+			delete: false,
+			callback: null
 		}
 	},
 
-
-	componentDidMount: function(){
-		this._addLetters();
-		
+	// ------------------------------------------------
+	// Current value of string
+	//
+	getInitialState: function(){
+		return {
+			index: 0
+		}
 	},
 
-	_addLetters: function(){
-		let self = this;
+	// ------------------------------------------------
+	// Increment state + call custom callback
+	//
+	
 
-		this._timer = setTimeout(function(){
+	// ------------------------------------------------
+	// BUG: Line index is incrementing BEFORE new data is in
+	//
+	
+	_callbackHandler: function(){
 
-			if (self._counter < self.props.message.length){
-				let currentLetter = self.props.message[self._counter];
+		const self = this;
+		this.setState({
+			index: this.state.index + 1
+		});
 
-				self.setState({
-					currentString: self.state.currentString + currentLetter
-				});
-
-				self._counter++;
-				self._addLetters();
-			}
-
-			else{
-				console.log('done');
-
-				self._delay = setTimeout(function(){
-					self.props.nextLine();
-				}, 200);
-				
-
-				clearTimeout(self._timer);
-			}
-			
-
-		},self._speed);
-
+		this.props.callback();
 	},
 
+	shouldComponentUpdate: function(nextProps){
+		if (nextProps.message[0] !== this.props.message[0]){
+			return true;
+		}
+
+		if (nextProps.lineIndex !== this.props.lineIndex){
+			return true;
+		}
+
+		else{
+			return false;
+		}
+	},
+
+	componentWillUnmount: function(){
+		alert('printer unmount');
+	},
+
+	componentWillReceiveProps: function(nextProps){
+		// console.log(nextProps.message);
+	},
 
 
 	render: function(){
 
+		const self = this;
+
+
 		return (
-			<p>{this.state.currentString}</p>
+			<div className="print-container">
+				
+				{this.props.message.map(function(item, index){
+					// console.log('INDEX: ', index, ' LINEINDEX: ', self.props.lineIndex);
+					if (index <= self.props.lineIndex){
+
+						return (
+							<PrintLine
+								key={index}
+								message={item}
+								speed={self.props.speed}
+								containerElement={self.props.containerElement}
+								callback={self._callbackHandler}
+								callbackDelay={self.props.callbackDelay}
+							/>
+						);
+					}
+				})}
+			</div>
 		);
+
+
 	}
 
-
-
-
 });
+
 
 module.exports = Printer;

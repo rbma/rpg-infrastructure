@@ -5,24 +5,17 @@
 // Entry point
 // 
 // -------------------------------------------------
-const React = require('react');
-const ReactDOM = require('react-dom');
-const ReactRouter = require('react-router');
-const Router = ReactRouter.Router;
-const Route = ReactRouter.Route;
-const browserHistory = ReactRouter.browserHistory;
+import React from 'react';
+import {render} from 'react-dom';
+import App from './app';
+const rootEl = document.getElementById('mount');
 
-const App = require('./App');
-const Home = require('./components/Home');
-const One = require('./components/One1');
+
 //const About = require('./components/About');
 
 
-ReactDOM.render((
-	<Router history={browserHistory}>
-		<Route component={App}>
-			<Route path="/" component={Home} />
-			<Router path="/1" component={One} />
-		</Route>
-	</Router>
-), document.getElementById('mount'));
+
+render(
+	<App/>,
+	rootEl
+);

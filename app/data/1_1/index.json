@@ -1,0 +1,32 @@
+{
+	"id": 11,
+	"image": "images/1_1.txt",
+	"title": "The Ice Cave",
+	"text": [
+		"You have successfully killed the seductress, but your adventure is only beginning.",
+		"Your food supplies are low.",
+		"What do you do?"
+	],
+	"prompts": [
+		{
+			"text": "1) Go towards her with a hatchet",
+			"id": "1",
+			"file": "1_1/index.json"
+		},
+		{
+			"text": "2) Run away",
+			"id": "2",
+			"file": "1_2/index.json"
+		},
+		{
+			"text": "3) Read a book",
+			"id": "3",
+			"file": "1_3/index.json"
+		},
+		{
+			"text": "4) Break down in tears",
+			"id": "4",
+			"file": "1_4/index.json"
+		}
+	]
+}
