@@ -19,10 +19,6 @@ const App = React.createClass({
 			//JSON Data
 			data: {},
 
-			//Page depth of adventure
-			page: 0,
-
-			//not used yet, but will add
 			loading: true,
 
 			//lineIndex - keeps track of printer
@@ -62,15 +58,26 @@ const App = React.createClass({
 	// ------------------------------------------------
 	// On user input, fetch new page
 	//
+	// ------------------------------------------------
+	// Find matching input id in options array of JSON
+	//
 	_nextData: function(id){
 
 		const self = this;
+		
+		let idNum = parseInt(id, 10);
+
+		console.log(self.state.data.prompts);
+
+		let index = _.find(self.state.data.prompts, function(p){
+			return p.id === idNum;
+		});
+
+		let indexFile = index.file;
 
 		function callFetch(){
 
-			let dataID = this.state.page + '_' + id;
-
-			fetch('data/' + dataID + '/index.json', true).then(function(response){
+			fetch('data/' + indexFile, true).then(function(response){
 				let data = response;
 				
 				setTimeout(function(){
@@ -89,7 +96,6 @@ const App = React.createClass({
 		}
 
 		this.setState({
-			page: this.state.page + 1,
 			loading: true
 		}, callFetch);
 	},

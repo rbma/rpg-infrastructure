@@ -1,3 +1,6 @@
+$purple: rgba(255,0,255,1);
+$green: rgba(0,255,0,1);
+
 *{
 	box-sizing: border-box;
 }
@@ -14,10 +17,10 @@ body{
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, 1);
-	color: rgba(255,0,255,1);
+	color: $purple;
 	//color: rgba(255,240,220,1);
 	text-transform: uppercase;
-	border: 5px solid rgba(255,0,255,1);
+	border: 5px solid $purple;
 	// text-align: center;
 }
 
@@ -49,13 +52,20 @@ body{
 	h1{
 		font-weight: lighter;
 		@include transform(scaleX(1.5));
+		display: inline-block;
+		border: 1px dashed $purple;
+		padding: 20px;
 	}
 }
 
 
 
 pre{
-	font-size: 0.5em;
+	text-align: center;
+	font-size: 0.25em;
+	border: 1px dashed $purple;
+	padding: 20px;
+	font-family: monospace;
 }
 
 p{
@@ -65,7 +75,7 @@ p{
 
 .blinking-cursor{
 	@include animation(blink 1s step-end infinite);
-	color: rgba(0,255,0,1);
+	color: $green;
 	display: none;
 	&:after{
 		content: '|';
@@ -87,15 +97,16 @@ p{
 	li{
 		&.active{
 			color: black;
-			background: rgba(255,0,255,1);
+			background: $purple;
 		}
 	}
 }
 
 .ansi{
-	font-size: 0.5em;
+	font-size: 0.25em;
 	font-weight: lighter;
 	line-height: 2;
+
 }
 
 span{

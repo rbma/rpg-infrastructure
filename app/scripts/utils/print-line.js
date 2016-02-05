@@ -1,8 +1,8 @@
 'use strict';
 
-
-const React = require('react');
-const classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
+import { Howl, Howler } from 'howler';
 
 const PrintLine = React.createClass({
 
@@ -12,12 +12,14 @@ const PrintLine = React.createClass({
 	_timer: null,
 	_delay: null,
 	_counter: 0,
+	_howl: null,
 	
 
 	propTypes: {
 		containerElement: React.PropTypes.string.isRequired,
 		callback: React.PropTypes.func.isRequired,
-		message: React.PropTypes.string.isRequired
+		message: React.PropTypes.string.isRequired,
+		sound: React.PropTypes.bool.isRequired
 
 	},
 
@@ -34,7 +36,11 @@ const PrintLine = React.createClass({
 	//
 	componentDidMount: function(){
 
-		console.log('PRINT LINE MOUNTED');
+		this._howl = new Howl({
+			urls: ['audio/click_ping.wav']
+		});
+
+
 		this._type();
 	},
 
@@ -63,7 +69,7 @@ const PrintLine = React.createClass({
 		// ------------------------------------------------
 		// Clear all
 		//
-		console.log('UNMOUNT');
+		this._howl.unload();
 
 		this.setState({
 			counter: 0,
@@ -81,6 +87,7 @@ const PrintLine = React.createClass({
 	// Main type function
 	//
 	_type: function(){
+
 		
 		const self = this;
 
@@ -103,6 +110,8 @@ const PrintLine = React.createClass({
 				// ------------------------------------------------
 				// Update current msg + Increment counter
 				//
+				self._howl.play();
+
 				self.setState({
 
 					currentString: self.state.currentString + currentLetter,

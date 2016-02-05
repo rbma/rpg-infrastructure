@@ -1,6 +1,6 @@
 {
 	"id": 12,
-	"image": "images/1_1.txt",
+	"image": "images/1_2.txt",
 	"title": "The Foggy Plains",
 	"text": [
 		"",
@@ -10,22 +10,22 @@
 	"prompts": [
 		{
 			"text": "1) Go towards her with a hatchet",
-			"id": "1",
+			"id": 1,
 			"file": "1_1/index.json"
 		},
 		{
 			"text": "2) Run away",
-			"id": "2",
+			"id": 2,
 			"file": "1_2/index.json"
 		},
 		{
 			"text": "3) Read a book",
-			"id": "3",
+			"id": 3,
 			"file": "1_3/index.json"
 		},
 		{
 			"text": "4) Break down in tears",
-			"id": "4",
+			"id": 4,
 			"file": "1_4/index.json"
 		}
 	]

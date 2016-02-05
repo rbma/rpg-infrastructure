@@ -10,12 +10,12 @@
 	"prompts": [
 		{
 			"text": "1) Go towards her with a hatchet",
-			"id": "1_1",
+			"id": 1,
 			"file": "1_1/index.json"
 		},
 		{
 			"text": "2) Run away",
-			"id": "1_2",
+			"id": 2,
 			"file": "1_2/index.json"
 		}
 	]

@@ -85,6 +85,7 @@ const Printer = React.createClass({
 								containerElement={self.props.containerElement}
 								callback={self.props.callback}
 								callbackDelay={self.props.callbackDelay}
+								sound={true}
 							/>
 						);
 					}

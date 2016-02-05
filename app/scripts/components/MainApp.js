@@ -4,6 +4,7 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import keysight from 'keysight';
+import {Howl, Howler} from 'howler';
 
 import splitLines from '../utils/splitLines';
 import Printer from '../utils/printer';
@@ -22,6 +23,9 @@ const MainApp = React.createClass({
 		handleInput: React.PropTypes.func.isRequired,
 		printNextLine: React.PropTypes.func.isRequired
 	},
+
+	_howlOption: null,
+	_howlSelect: null,
 
 	getInitialState: function(){
 		return {
@@ -43,7 +47,20 @@ const MainApp = React.createClass({
 
 	componentDidMount: function(){
 		const self = this;
+
+		Howler.volume(0.5);
+
+		this._howlOption = new Howl({
+			urls: ['audio/click_plink.wav']
+		});
+
+		this._howlSelect = new Howl({
+			urls: ['audio/click_topple.wav']
+		});
+		
+
 		document.addEventListener('keydown', self._onKeyDown);
+
 
 
 	},
@@ -73,6 +90,8 @@ const MainApp = React.createClass({
 			// Increment through options
 			//
 			case 'down':
+
+				self._howlOption.play();
 				
 				if (self.state.activeAnswer < self.props.data.prompts.length){
 					self.setState({
@@ -96,6 +115,8 @@ const MainApp = React.createClass({
 				break;
 
 			case 'up':
+
+				self._howlOption.play();
 
 				if (self.state.activeAnswer <= 1){
 					self.setState({
@@ -146,7 +167,12 @@ const MainApp = React.createClass({
 				});
 				break;
 			case 'enter':
+
+				self._howlSelect.play();
 				self._handleInput(self.state.input);
+
+				
+
 				break;
 		}
 	},
@@ -170,7 +196,7 @@ const MainApp = React.createClass({
 		return (
 			<Printer
 				message={this.props.data.text}
-				speed={5}
+				speed={40}
 				callback={this.props.printNextLine}
 				callbackDelay={200}
 				lineIndex={this.props.lineIndex}
@@ -204,6 +230,8 @@ const MainApp = React.createClass({
 
 			return (
 				<div className="home">
+
+					<Image src={this.props.data.image} />
 					
 
 					<h1>{this.props.data.title}</h1>
