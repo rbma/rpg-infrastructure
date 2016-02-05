@@ -17,32 +17,48 @@ const MainApp = React.createClass({
 
 	propTypes: {
 		data: React.PropTypes.object,
-		nextData: React.PropTypes.func.isRequired
+		nextData: React.PropTypes.func.isRequired,
+		lineIndex: React.PropTypes.number.isRequired,
+		handleInput: React.PropTypes.func.isRequired,
+		printNextLine: React.PropTypes.func.isRequired
 	},
 
 	getInitialState: function(){
 		return {
-			lineIndex: 0,
 			input: '1',
-			activeAnswer: 0
+			activeAnswer: 1
 		};
 	},
 
+	// shouldComponentUpdate: function(nextProps){
+	// 	if (nextProps.lineIndex !== this.props.lineIndex){
+	// 		return true;
+	// 	}
+
+	// 	else{
+	// 		return false;
+	// 	}
+	// },
+
 
 	componentDidMount: function(){
-
-		let self = this;
-
+		const self = this;
 		document.addEventListener('keydown', self._onKeyDown);
 
+
+	},
+
+	componentWillUnmount: function(){
+		const self = this;
+		document.removeEventListener('keydown', self._onKeyDown);
+		
 	},
 
 
 	_onKeyDown: function(e){
 		let key = keysight(e).key;
-		let self = this;
+		const self = this;
 
-		console.log(key);
 
 		if (e.keyCode === 8){
 			key = 'backspace';
@@ -58,16 +74,22 @@ const MainApp = React.createClass({
 			//
 			case 'down':
 				
-				if (self.state.activeAnswer < self.props.data.prompts.length - 1){
+				if (self.state.activeAnswer < self.props.data.prompts.length){
 					self.setState({
-						activeAnswer: self.state.activeAnswer + 1,
-						input: self.state.activeAnswer
+						activeAnswer: self.state.activeAnswer + 1
+					}, function(){
+						self.setState({
+							input: (self.state.activeAnswer).toString()
+						})
 					});
 				}
 				else{
 					self.setState({
-						activeAnswer: 0,
-						input: self.state.activeAnswer + 1
+						activeAnswer: 1,
+					}, function(){
+						self.setState({
+							input: '1'
+						});
 					});
 				}
 				
@@ -75,16 +97,25 @@ const MainApp = React.createClass({
 
 			case 'up':
 
-				if (self.state.activeAnswer < self.props.data.prompts.length - 1){
+				if (self.state.activeAnswer <= 1){
 					self.setState({
-						activeAnswer: self.props.data.prompts.length - 1,
-						input: self.state.activeAnswer - 1
+						activeAnswer: self.props.data.prompts.length,
+					}, function(){
+						self.setState({
+							input: (self.state.activeAnswer).toString()
+						})
 					});
+
 				}
 				else{
 					self.setState({
 						activeAnswer: self.state.activeAnswer - 1
+					}, function(){
+						self.setState({
+							input: self.state.activeAnswer.toString()
+						});
 					});
+
 				}
 
 				break;
@@ -122,18 +153,12 @@ const MainApp = React.createClass({
 
 
 
-	_printNextLine: function(){
-		this.setState({
-			lineIndex: this.state.lineIndex + 1
-		});
-
-	},
-
 	_handleInput: function(id){
+
+		console.log('HANDLE INPUT CALLED');
 		//reset state
 		this.setState({
-			input: '',
-			lineIndex: 0
+			input: ''
 		});
 
 		this.props.nextData(id);
@@ -142,15 +167,13 @@ const MainApp = React.createClass({
 
 	_printer: function(){
 
-		//console.log('PRINT', this.props.data.text);
-
 		return (
 			<Printer
 				message={this.props.data.text}
-				speed={40}
-				callback={this._printNextLine}
+				speed={5}
+				callback={this.props.printNextLine}
 				callbackDelay={200}
-				lineIndex={this.state.lineIndex}
+				lineIndex={this.props.lineIndex}
 			/>
 		);
 	},
@@ -161,31 +184,27 @@ const MainApp = React.createClass({
 		
 		const self = this;
 
-
-
 		if (this.props.data.text){
 
 			let cx = classNames({
 				options: true,
-				visible: this.state.lineIndex >= this.props.data.text.length
+				visible: this.props.lineIndex >= this.props.data.text.length
 			});
 
 			let cy = classNames({
 				choice: true,
-				visible: this.state.lineIndex >= this.props.data.text.length
+				visible: this.props.lineIndex >= this.props.data.text.length
 			});
 
 			let cz = classNames({
 				'blinking-cursor': true,
-				visible: this.state.lineIndex >= this.props.data.text.length
+				visible: this.props.lineIndex >= this.props.data.text.length
 			});
-
-
 
 
 			return (
 				<div className="home">
-					<Image src={this.props.data.image} />
+					
 
 					<h1>{this.props.data.title}</h1>
 					
@@ -198,7 +217,7 @@ const MainApp = React.createClass({
 							return (
 								<Option
 									key={index}
-									index={index}
+									index={index + 1}
 									text={item.text}
 									activeAnswer={self.state.activeAnswer}
 								/>
@@ -219,7 +238,7 @@ const MainApp = React.createClass({
 		}
 
 		
-
+		//<Image src={this.props.data.image} />
 
 		
 	}

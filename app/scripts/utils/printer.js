@@ -47,54 +47,22 @@ const Printer = React.createClass({
 	},
 
 	// ------------------------------------------------
-	// Current value of string
-	//
-	getInitialState: function(){
-		return {
-			index: 0
-		}
-	},
-
-	// ------------------------------------------------
 	// Increment state + call custom callback
 	//
 	
-
-	// ------------------------------------------------
-	// BUG: Line index is incrementing BEFORE new data is in
-	//
 	
-	_callbackHandler: function(){
-
-		const self = this;
-		this.setState({
-			index: this.state.index + 1
-		});
-
-		this.props.callback();
-	},
-
 	shouldComponentUpdate: function(nextProps){
-		if (nextProps.message[0] !== this.props.message[0]){
-			return true;
-		}
-
-		if (nextProps.lineIndex !== this.props.lineIndex){
+		if (this.props.lineIndex !== nextProps.lineIndex){
 			return true;
 		}
 
 		else{
 			return false;
 		}
+
 	},
 
-	componentWillUnmount: function(){
-		alert('printer unmount');
-	},
 
-	componentWillReceiveProps: function(nextProps){
-		// console.log(nextProps.message);
-	},
 
 
 	render: function(){
@@ -106,16 +74,16 @@ const Printer = React.createClass({
 			<div className="print-container">
 				
 				{this.props.message.map(function(item, index){
-					// console.log('INDEX: ', index, ' LINEINDEX: ', self.props.lineIndex);
+					//console.log('INDEX: ', index, ' LINEINDEX: ', self.props.lineIndex, 'ITEM: ', item);
 					if (index <= self.props.lineIndex){
-
+							//console.log(item);
 						return (
 							<PrintLine
 								key={index}
 								message={item}
 								speed={self.props.speed}
 								containerElement={self.props.containerElement}
-								callback={self._callbackHandler}
+								callback={self.props.callback}
 								callbackDelay={self.props.callbackDelay}
 							/>
 						);

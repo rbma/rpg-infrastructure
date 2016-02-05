@@ -16,7 +16,8 @@ const PrintLine = React.createClass({
 
 	propTypes: {
 		containerElement: React.PropTypes.string.isRequired,
-		callback: React.PropTypes.func.isRequired
+		callback: React.PropTypes.func.isRequired,
+		message: React.PropTypes.string.isRequired
 
 	},
 
@@ -33,10 +34,10 @@ const PrintLine = React.createClass({
 	//
 	componentDidMount: function(){
 
-		if (this.props.message){
-			this._type();
-		}
+		console.log('PRINT LINE MOUNTED');
+		this._type();
 	},
+
 
 
 	// ------------------------------------------------
@@ -62,12 +63,12 @@ const PrintLine = React.createClass({
 		// ------------------------------------------------
 		// Clear all
 		//
+		console.log('UNMOUNT');
 
-		this._counter = 0;
 		this.setState({
+			counter: 0,
 			currentString: ''
 		});
-
 
 
 		clearTimeout(self._timer);
@@ -92,25 +93,26 @@ const PrintLine = React.createClass({
 			// While there are letters left
 			//
 			if (self.state.counter < self.props.message.length){
-				console.log(self.props.message.length);
 				
 				// ------------------------------------------------
 				// New letter to add
 				//
+				//console.log(self.props.message, self.state.counter);
 				let currentLetter = self.props.message[self.state.counter];
 
 				// ------------------------------------------------
 				// Update current msg + Increment counter
 				//
 				self.setState({
-					currentString: self.state.currentString + currentLetter,
-					counter: self.state.counter + 1
-				}, self._type);
 
-				// // ------------------------------------------------
-				// // Call recursive function again
-				// //
-				// self._type();
+					currentString: self.state.currentString + currentLetter,
+
+				}, function(){
+
+					self.setState({
+						counter: self.state.counter + 1
+					}, self._type);
+				});
 			}
 
 			// ------------------------------------------------
@@ -120,13 +122,10 @@ const PrintLine = React.createClass({
 				self._delay = setTimeout(function(){
 
 					
-					console.log('LINE ENDED');
 					// ------------------------------------------------
 					// Trigger callback
 					//
 					self.props.callback();
-
-
 
 
 					// ------------------------------------------------
